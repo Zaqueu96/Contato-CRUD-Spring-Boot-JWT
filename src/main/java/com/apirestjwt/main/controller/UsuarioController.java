@@ -2,6 +2,8 @@ package com.apirestjwt.main.controller;
 
 import java.util.List;
 
+import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,19 +31,41 @@ public class UsuarioController {
 	@PostMapping
 	@ResponseBody
 	public ResponseEntity<Usuario> save(@Valid @RequestBody Usuario user){
+		try{
 		Usuario u = dao.save(user);
-		if(u == null)
+		return ResponseEntity.ok(u);
+		}catch(EntityExistsException ex){
 			return ResponseEntity.status(HttpStatus.resolve(500)).build();
-		return ResponseEntity.ok(u);		
+		}catch(Exception ex){
+			return ResponseEntity.status(HttpStatus.resolve(500)).build();
+		}			
 	}
 	
+	@GetMapping("/{id}")
+	@ResponseBody
+	public ResponseEntity<Usuario> get(@PathVariable Long id){
+		try{
+			Usuario u = this.dao.getOne(id);
+			return ResponseEntity.ok(u);
+			}catch(EntityNotFoundException ex){
+				return ResponseEntity.status(HttpStatus.resolve(500)).build();
+			}catch(Exception ex){
+				return ResponseEntity.status(HttpStatus.resolve(500)).build();
+			}	
+	}
+
 	@PutMapping("/{id}")
 	@ResponseBody
 	public ResponseEntity<Usuario> update(@PathVariable Long id,@Valid @RequestBody Usuario user){
-		user.setId(id);
-		Usuario u = dao.save(user);
-		if(u == null)
-			return ResponseEntity.status(HttpStatus.resolve(500)).build();
-		return ResponseEntity.ok(u);		
+		try{
+			Usuario ret = this.dao.getOne(id);
+			user.setId(ret.getId());	
+			Usuario u = dao.save(user);
+			return ResponseEntity.ok(u);
+			}catch(EntityNotFoundException ex){
+				return ResponseEntity.status(HttpStatus.resolve(500)).build();
+			}catch(Exception ex){
+				return ResponseEntity.status(HttpStatus.resolve(500)).build();
+			}	
 	}
 }
