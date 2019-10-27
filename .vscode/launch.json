@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-ApiRestJwtCrudSimplesContatosApplication<ApiRest_JWT_Crud_Simples_Contatos>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.apirestjwt.main.ApiRestJwtCrudSimplesContatosApplication",
+            "projectName": "ApiRest_JWT_Crud_Simples_Contatos",
+            "args": ""
+        }
+    ]
+}
