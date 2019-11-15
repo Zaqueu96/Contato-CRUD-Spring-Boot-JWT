@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.apirestjwt.main.model.ResponseModel;
 import com.apirestjwt.main.model.Usuario;
 import com.apirestjwt.main.service.UsuarioService;
 
@@ -30,7 +31,7 @@ import io.jsonwebtoken.MalformedJwtException;
 
 @RestController
 @RequestMapping(value = "/users", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class UsuarioController extends BaseController{
+public class UsuarioController {
 
 
 	@Autowired
@@ -40,9 +41,13 @@ public class UsuarioController extends BaseController{
 
 	/**Carregando dado de determinado Usuario */
 	@GetMapping("/{id}")
-	public Object getOne(@PathVariable Long id,@RequestHeader Map<String,String> req)  throws Exception,MalformedJwtException,AccessDeniedException {
-		System.out.println("Request:->  Chegou aki"+req);
-			return this.doResponse(HttpStatus.ACCEPTED,"Usuario encontrado", this.service.getOne(id));
+	public Object getOne(@PathVariable Long id,@RequestHeader Map<String,String> req) {
+			ResponseModel response = ResponseModel.getInstance();
+			response.setStatus(HttpStatus.ACCEPTED);
+			response.setMensage("Usuario Encontrado!");
+			response.setData(this.service.getOne(id));
+			response.setSuccess(true);
+			return ResponseEntity.ok(response);
 	
 	}
 
@@ -52,8 +57,13 @@ public class UsuarioController extends BaseController{
 	 */
 	@PostMapping(consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	@ResponseBody
-	public ResponseEntity<Object> save(@Valid @RequestBody Usuario user) throws Exception {
-		return this.doResponse(HttpStatus.ACCEPTED,"Usuario encontrado", this.service.register(user));
+	public ResponseEntity<Object> save(@Valid @RequestBody Usuario user)  {
+		ResponseModel response = ResponseModel.getInstance();
+		response.setStatus(HttpStatus.ACCEPTED);
+		response.setMensage("Usuario Registrado!");
+		response.setData(this.service.register(user));
+		response.setSuccess(true);
+		return ResponseEntity.ok(response);
 	}
 
 	/**
@@ -95,4 +105,5 @@ public class UsuarioController extends BaseController{
 		}
 
 	}
+	
 }

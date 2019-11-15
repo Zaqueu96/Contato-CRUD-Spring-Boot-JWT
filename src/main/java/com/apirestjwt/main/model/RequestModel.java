@@ -1,9 +1,11 @@
 package com.apirestjwt.main.model;
 
+import java.util.List;
+
 public class RequestModel {
 	
 	private Contato contato;
-	private Telefone[] telefones;
+	private List<Telefone> telefones;
 	
 	public Contato getContato() {
 		return contato;
@@ -11,11 +13,8 @@ public class RequestModel {
 	public void setContato(Contato contato) {
 		this.contato = contato;
 	}
-	public Telefone[] getTelefones() {
+	public List<Telefone> getTelefones() {
 		return telefones;
-	}
-	public void setTelefones(Telefone[] telefones) {
-		this.telefones = telefones;
 	}
 	
 	

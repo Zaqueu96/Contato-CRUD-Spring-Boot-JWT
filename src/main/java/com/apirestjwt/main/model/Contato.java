@@ -31,11 +31,11 @@ public class Contato {
 	private Usuario usuario;
 	
 	@NotBlank
-	@Column(nullable = false)
+	@Column(nullable = false,unique = true)
 	private String nome;
 	
 	@NotBlank
-	@Column(nullable = false)
+	@Column(nullable = false,unique = true)
 	private String email;
 	
 	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "contato")	
@@ -77,7 +77,9 @@ public class Contato {
 	public Collection<Telefone> getTelefones() {
 		return telefones;
 	}
-	
+	public void setTelefones(Collection<Telefone> lista) {
+		this.telefones =  lista;
+	}
 	
 	
 	

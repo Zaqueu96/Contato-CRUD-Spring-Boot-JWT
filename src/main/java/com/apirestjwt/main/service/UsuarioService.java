@@ -1,20 +1,26 @@
 package com.apirestjwt.main.service;
 
+import java.util.List;
+import java.util.logging.Logger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.apirestjwt.main.model.Contato;
 import com.apirestjwt.main.model.Usuario;
 import com.apirestjwt.main.repository.UsuarioRepositoy;
 import com.apirestjwt.main.security.jwt.JwtTokenUtil;
+
+
+
 
 @Service
 public class UsuarioService {
 
 	@Autowired
 	private UsuarioRepositoy dao;
-	@Autowired
-	private JwtTokenUtil tokenUtil;	
+	
 	@Autowired
 	private PasswordEncoder passwordEncode;
 
@@ -26,9 +32,11 @@ public class UsuarioService {
 		return dao.save(user);
 	}
 	
+	// SENDO USADO PELO USERDETAILS
 	public UsuarioRepositoy getRepository() {
 		return this.dao;
 	}
+	
 	
 	public Usuario update(Usuario user) {
 		return dao.save(user);
@@ -38,6 +46,10 @@ public class UsuarioService {
 		dao.deleteById(user);
 	}
 
+	public Usuario getByEmail(String email) {
+		return dao.findbyEmail(email);
+	}
+	
 	public Usuario getOne(Long user) {
 		return dao.findById(user).get();
 	}
@@ -49,10 +61,17 @@ public class UsuarioService {
 		return u;
 	}
 	
+	public List<Contato> getContatos(Long id){
+		Usuario u = this.dao.getOne(id);
+		return (List<Contato>) u.getContatos();
+	}
+
 	private boolean verificarEmail(String email) {
 		Usuario u = dao.findbyEmail(email);
 		return (u == null) ? false : true;
 	}
+
+
 	
 	
 }
