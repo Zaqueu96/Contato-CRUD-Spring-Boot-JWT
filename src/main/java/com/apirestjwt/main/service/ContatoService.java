@@ -3,6 +3,7 @@ package com.apirestjwt.main.service;
 import java.util.Collection;
 import java.util.List;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,7 +33,7 @@ public class ContatoService {
 		return this.dao.findById(id).get();
 	}
 
-	public Contato save(RequestModel request,Authentication auth) {	
+	public Contato save(RequestModel request,Authentication auth) {
 		Contato contato = request.getContato();
 		Contato u = this.dao.save(contato);
 		u.setTelefones(contato.getTelefones());

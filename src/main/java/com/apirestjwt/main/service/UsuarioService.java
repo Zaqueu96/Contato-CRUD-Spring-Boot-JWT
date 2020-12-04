@@ -27,6 +27,7 @@ public class UsuarioService {
 	public Usuario register(Usuario user) {
 		if (!this.verificarEmail(user.getEmail())) {
 			new Throwable("Este Email já existe...");
+			
 		}
 		user.setSenha(passwordEncode.encode(user.getSenha()));
 		return dao.save(user);
@@ -68,6 +69,7 @@ public class UsuarioService {
 
 	private boolean verificarEmail(String email) {
 		Usuario u = dao.findbyEmail(email);
+		System.out.println(u);
 		return (u == null) ? false : true;
 	}
 

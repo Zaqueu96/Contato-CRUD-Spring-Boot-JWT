@@ -40,9 +40,11 @@ public class ContatoController extends BaseController {
 
 	@PostMapping
 	public ResponseEntity<Object> save(@Valid @RequestBody RequestModel requisicao) {		
-		Contato c = this.service.save(requisicao);
+//		try {
+		Contato c = this.service.save(requisicao, null);
 		if(c == null) return ResponseEntity.badRequest().build();
 		return ResponseEntity.ok(c);
+//		}catch(ConstraintViolationException)
 	}
 
 	@PutMapping("/{id}")

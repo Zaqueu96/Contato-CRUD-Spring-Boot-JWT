@@ -38,7 +38,7 @@ public class Usuario {
 	private String email;
 	@NotNull(message = "Senha é Requerida!!")
 	@NotBlank(message ="Senha é Requerida!!")
-	@JsonIgnore
+//	@JsonIgnore
 	@Column(nullable = false)
 	private String senha;
 	@Column( columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP",insertable=false, updatable=false)

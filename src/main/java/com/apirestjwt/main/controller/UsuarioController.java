@@ -51,20 +51,7 @@ public class UsuarioController {
 	
 	}
 
-	/**
-	 * Cadrasto de Usuario
-	 * @throws Exception 
-	 */
-	@PostMapping(consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-	@ResponseBody
-	public ResponseEntity<Object> save(@Valid @RequestBody Usuario user)  {
-		ResponseModel response = ResponseModel.getInstance();
-		response.setStatus(HttpStatus.ACCEPTED);
-		response.setMensage("Usuario Registrado!");
-		response.setData(this.service.register(user));
-		response.setSuccess(true);
-		return ResponseEntity.ok(response);
-	}
+	
 
 	/**
 	 * Atualizar Usuario
@@ -84,11 +71,11 @@ public class UsuarioController {
 	/**
 	 * Mudar Foto
 	 */
-	@PutMapping
+	@PostMapping(path = "/{id}/avatar")
 	@ResponseBody
-	public ResponseEntity<Usuario> uploadImage(@RequestPart("foto") MultipartFile img) {
+	public ResponseEntity<Usuario> uploadImage(@RequestPart("foto") MultipartFile img,@PathVariable Long id) {
 		File file = new File(uploadingDir + img.getOriginalFilename());
-		Usuario user =  Usuario.getInstance();
+		Usuario user =  this.service.getOne(id);
 		try {
 			img.transferTo(file);
 			user.setAvatar(path + img.getOriginalFilename());
@@ -101,6 +88,9 @@ public class UsuarioController {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return ResponseEntity.badRequest().build();
+		}catch(Exception ex) {
+			ex.printStackTrace();
 			return ResponseEntity.badRequest().build();
 		}
 
